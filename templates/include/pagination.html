@@ -1,0 +1,33 @@
+{% if autopart_list.has_other_pages %}
+    <ul class="pagination">
+        {% if autopart_list.has_previous %}
+             <li class="pagination__item">
+                <a href="?page={{ autopart_list.previous_page_number }}" class="pagination__link">&laquo;</a>
+             </li>
+        {% else %}
+            <li class="pagination__item disabled">
+                <a class="pagination__link">&laquo;</a>
+            </li>
+        {% endif %}
+        {% for i in autopart_list.paginator.page_range %}
+            {% if autopart_list.number == i %}
+                <li class="pagination__item active">
+                    <a class="pagination__link">{{ i }}</a>
+                </li>
+            {% else %}
+                <li class="pagination__item">
+                    <a href="?page={{ i }}" class="pagination__link">{{ i }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if autopart_list.has_next %}
+             <li class="pagination__item">
+                <a href="?page={{ autopart_list.next_page_number }}" class="pagination__link">&raquo;</a>
+             </li>
+        {% else %}
+            <li class="pagination__item disabled">
+                <a class="pagination__link">&raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

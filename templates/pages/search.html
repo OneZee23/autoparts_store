@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="search">
+        <div class="container">
+            <div class="search__autoparts">
+                <div class="search__nav">
+                    <form action="{% url 'search' %}">
+                        <div class="form__search">
+                            <div class="col-md-4">
+                                <label class="sr">Название
+                                    <input type="text" name="nametag" class="form__control"
+                                           value="{{ values.nametag }}" placeholder="Название">
+                                </label>
+                            </div>
+                            <div class="col-md-4" style="width: 310px">
+                                <label class="sr">Категория
+                                    <select name="category" class="form__control">
+                                    <option selected="true" disabled="disabled">Категория (Любая)</option>
+                                    {% for key,value in category_choices.items %}
+                                        <option value="{{ key }}"
+                                        {% if key == values.category %}
+                                            selected
+                                        {% endif %}
+                                        >{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                                </label>
+                            </div>
+                            <div class="col-md-4" style="width: 310px">
+                                <label class="sr">Автопроизводитель
+                                    <select name="automake" class="form__control">
+                                    <option selected="true" disabled="disabled">Автопроизводитель (Любой)</option>
+                                    {% for key,value in automake_choices.items %}
+                                        <option value="{{ key }}"
+                                        {% if key == values.automake %}
+                                            selected
+                                        {% endif %}
+                                        >{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form__search">
+                            <div class="col-md-6">
+                                <label class="sr">Цена</label>
+                                <select name="price" class="form__controll">
+                                    <option selected="true" disabled="disabled">Цена (Любая)</option>
+                                    {% for key,value in price_choices.items %}
+                                        <option value="{{ key }}"
+                                        {% if key == values.price %}
+                                            selected
+                                        {% endif %}
+                                        >до {{ value }} Р</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="sr">Количество</label>
+                                <select name="count" class="form__controll">
+                                    <option selected="true" disabled="disabled">Количество (Любое)</option>
+                                    {% for key,value in count_choices.items %}
+                                        <option value="{{ key }}"
+                                        {% if key == values.count %}
+                                            selected
+                                        {% endif %}
+                                        >от {{ value }} шт</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn__search">Поиск</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="listings">
+        <div class="container">
+            <div class="listings__nav">
+                <div class="listings__top">
+                    <div class="listings__about">
+                        Каталог автозапчастей
+                    </div>
+                    <div class="margin__line"></div>
+                </div>
+                <div class="col-md-8__autoparts">
+                    <div class="autoparts__row">
+                        {% if autopart_list %}
+                            {% for autopart in autopart_list %}
+                                <a href="{{ autopart.get_absolute_url }}" class="col-sm-4">
+                                    <div class="autoparts">
+                                        <div class="autoparts__icon">
+                                            <div class="autoparts__center">
+                                                <img src="{{ autopart.image.url }}" class="autoparts__img"
+                                                     style="max-height: 76px;">
+                                            </div>
+                                        </div>
+                                        <span class="autoparts__title">{{ autopart.title }}</span>
+                                        <div class="autoparts__line"></div>
+                                        <div class="autoparts__info">Автопроизводитель:
+                                            {% for automake in autopart.automake.all %}
+                                                {{ automake.name }}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="autoparts__info">Количество: {{ autopart.count }}</div>
+                                        <div class="autoparts__info">Категория: {{ autopart.category }}</div>
+                                        <div class="autoparts__line"></div>
+                                        <div class="autoparts__price">{{ autopart.price }} P</div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-md-12">
+                                <p>Нет доступных товаров</p>
+                            </div>
+                        {% endif %}
+
+                    <div class="grid-img-right mt-4 text-right bg bg1">
+                        {% include 'include/pagination.html' %}
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

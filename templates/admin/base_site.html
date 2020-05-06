@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block branding %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <h1 id="head">
+        <img src="{% static 'img/logo60.png' %}" alt="Интернет-магазин автозапчастей" class="brand_img">
+        Панель управления
+    </h1>
+{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}

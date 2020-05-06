@@ -1,0 +1,37 @@
+{% load static %}
+<header class="header">
+    <div class="header content">
+        <div class="container">
+            <div class="header content-inner">
+                <div class="header logo">
+                    <a href="{% url 'index' %}">
+                        <img src="{% static 'img/logo60.png' %}" alt="">
+                    </a>
+                </div>
+                <nav class="menu">
+                    <ul class="navbar">
+                        <li><a class="header btn mr" href="{% url 'index' %}">Главная</a></li>
+                        <li><a class="header btn mr" href="{% url 'catalog' %}">Каталог товаров</a></li>
+                    </ul>
+                    <ul class="navbar user">
+                        {% if user.is_authenticated %}
+                            <li><a class="header btn mx" href="{% url 'cart' %}">Корзина</a></li>
+                            <li class="lsq">|</li>
+                            <li>
+                                <a class="header btn mx" href="javascript:{document.getElementById('logout').submit()}">Выход</a>
+                                <form action="{% url 'logout' %}" id="logout" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden">
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a class="header btn mx" href="{% url 'register' %}">Регистрация</a></li>
+                            <li class="lsq">|</li>
+                            <li><a class="header btn mx" href="{% url 'login' %}">Вход</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

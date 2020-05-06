@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section class="product">
+        <div class="container">
+            {% include 'include/_alerts.html' %}
+            <a href="{% url 'catalog' %}" class="button-product-back">Назад к списку товаров</a>
+            <div class="product-row">
+                <div class="col-md-9">
+                    <img src="{{ autopart.image.url }}">
+                    <div class="product-fields">
+                        <div class="col-md-5">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    Товар:
+                                    <span class="item-right"> {{ autopart.title }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    Категория:
+                                    <span class="item-right"> {{ autopart.category.name }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    В наличии:
+                                    <span class="item-right"> {{ autopart.count }} шт</span>
+                                </li>
+                                <li class="list-group-item">
+                                    Цена:
+                                    <span class="item-right"> {{ autopart.price }} Р</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="product-discription">
+                            <div class="discription">
+                                {{ autopart.description }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <form action="{% url 'order' %}" method="POST">
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                        {% else %}
+                            <input type="hidden" name="user_id" value="0">
+                        {% endif %}
+                        <input type="hidden" name="autopart" value="{{ autopart.title }}">
+                        <input type="hidden" name="autopart_url" value="{{ autopart.url }}">
+                        <input type="hidden" name="count" value="1">
+                        <input type="hidden" name="description" value="{{ autopart.description }}">
+                        <input type="hidden" name="price" value="{{ autopart.price }}">
+                        <button class="button-addtocart">Добавить товар в корзину</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

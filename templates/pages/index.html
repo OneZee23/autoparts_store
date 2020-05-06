@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="about">
+    <div class="container">
+        <div class="about__inner">
+            <div class="about__item">
+                <div class="about__title">
+                    Интернет-магазин автозапчастей
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'include/_alerts.html' %}
+
+<section class="search__index">
+    <div class="container">
+        <div class="search__top">
+            <div class="search__about">
+                Поиск по автопроизводителю
+            </div>
+            <div class="form__row">
+                <form action="catalog.html">
+                    <input type="text" name="automake" class="form-control" placeholder="Введите марку автомобиля">
+                    <button type="submit"><a class="sr-only"></a></button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8__automake">
+            <div class="automake__row">
+                {% for automake in automake_list %}
+                <a href="{% url 'search' %}?automake={{ automake.name }}" class="col-sm-4">
+                    <div class="automake">
+                        <div class="automake__icon">
+                            <div class="automake__center">
+                                <img src="media/{{ automake.image }}" class="automake__img" style="max-height: 76px;">
+                            </div>
+                        </div>
+                        <span class="automake__title">
+                            {{ automake.name }}
+                        </span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
