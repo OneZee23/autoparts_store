@@ -2,6 +2,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from parts.choices import category_choices, automake_choices, price_choices, count_choices
+from accounts.models import User_Panel
 from .models import Autopart, Automake
 
 
@@ -18,7 +19,7 @@ class AutopartsView(ListView):
     def get(self, request):
         listings = Autopart.objects.order_by('price').filter(draft=False)
 
-        paginator = Paginator(listings, 2)
+        paginator = Paginator(listings, 4)
         page = request.GET.get('page')
         paged_listings = paginator.get_page(page)
 
@@ -27,7 +28,8 @@ class AutopartsView(ListView):
             'category_choices': category_choices,
             'automake_choices': automake_choices,
             'price_choices': price_choices,
-            'count_choices': count_choices
+            'count_choices': count_choices,
+            'user_info': User_Panel.objects.all()
         }
         return render(request, 'pages/catalog.html', context)
 

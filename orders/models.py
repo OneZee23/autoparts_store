@@ -7,4 +7,9 @@ class Order(models.Model):
     count = models.PositiveSmallIntegerField("Количество", default=0)
     description = models.TextField("Описание", blank=True)
     user_id = models.IntegerField(blank=True)
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
 

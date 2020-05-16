@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="cart">
+    <div class="container">
+        <div class="cart__about">
+            <div class="cart__text">Панель управления</div>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard">
+    <div class="container">
+        <div class="dash__row">
+            <div class="col-md-12">
+                <form action="{% url 'dashboard' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include 'include/_alerts.html' %}
+                    {% for detail in users %}
+                    <h2>Профиль пользователя {{ user.username }}</h2>
+                    {% if detail.photo %}
+                    <img src="{{ detail.photo.url }}">
+                    {% endif %}
+                    <div>
+                        <a>Изменить фото</a>
+                        <div><input type="file" name="photo" value="detail.photo"></div>
+                        <h4 style="color:#008B8B; padding: 6px; font-size: large;">Имя: {{ detail.first_name }}</h4>
+                    </div>
+                    <a>Новое имя</a>
+                    <div><input class="dash-input" name="first_name" type="text" value="{{ detail.first_name }}"></div>
+                    <h4 style="color:#008B8B; padding: 6px; font-size: large;">Фамилия: {{ detail.last_name }}</h4>
+                    <a>Новая фамилия</a>
+                    <div><input class="dash-input" name="last_name" type="text" value="{{ detail.last_name }}"></div>
+                    <h4 style="color:#008B8B; padding: 6px; font-size: large;">e-mail: {{ detail.email }}</h4>
+                    <a>Новая почта</a>
+                    <div><input class="dash-input" name="email" type="text" value="{{ detail.email }}"></div>
+                    {% if detail.individual == True %}
+                    <h4 style="color:#008B8B; padding: 6px; font-size: large;">Статус пользователя:</h4>
+                    <div class="status__radio">
+                        <input class="status__radio" type="radio" name="individual" value="False">
+                        <label for="false">Юр. лицо</label><br>
+                        <input class="status__radio" type="radio" name="individual" value="True" checked
+                               style="margin-left: 20px;">
+                        <label for="true">Частное лицо</label>
+                    </div>
+                    {% else %}
+                    <h4 style="color:#008B8B; padding: 6px; font-size: large;">Статус пользователя:</h4>
+                    <input class="status__radio" type="radio" name="individual" value="False" checked
+                           style="margin-left: 20px;">
+                    <label for="false">Юр. лицо</label><br>
+                    <input class="status__radio" type="radio" name="individual" value="True">
+                    <label for="true">Частное лицо</label>
+                    {% endif %}
+                    {% endfor %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <div class="div-dash-button">
+                        <button class="dash-button">Изменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

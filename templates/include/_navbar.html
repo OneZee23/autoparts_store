@@ -15,6 +15,7 @@
                     </ul>
                     <ul class="navbar user">
                         {% if user.is_authenticated %}
+                            <li><a class="header btn mx" href="{% url 'dashboard' %}">{{ user.username }}</a></li>
                             <li><a class="header btn mx" href="{% url 'cart' %}">Корзина</a></li>
                             <li class="lsq">|</li>
                             <li>
